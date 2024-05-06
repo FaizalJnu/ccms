@@ -78,7 +78,16 @@ async function authStudentLoginHandler(
                 success: true,
                 body: {
                     message: 'Student login successful',
-                    token: accessToken
+                    token: accessToken,
+                    student: {
+                        enrollmentNumber: student.enrollment_number,
+                        email: student.cis_id,
+                        first_name: student.first_name,
+                        last_name: student.last_name,
+                        credits: student.credits,
+                        in_club_as_team: student.in_club_as_team,
+                        in_club_as_member: student.in_club_as_member
+                    }
                 }
             });
             return;
@@ -119,12 +128,12 @@ async function authStudentSignupHandler(
             response.status(404).send({ error: 'Student not found' });
             return;
         }
-        if(!student.cis_id) {
+        if (!student.cis_id) {
             response.status(400).send({ error: 'Student email not verified' });
             return;
         }
 
-        if(student.cis_id !== body.email) {
+        if (student.cis_id !== body.email) {
             response.status(400).send({ error: 'Email incorrect' });
             return;
         }
@@ -148,7 +157,16 @@ async function authStudentSignupHandler(
             success: true,
             body: {
                 message: 'Student signup successful',
-                token: accessToken
+                token: accessToken,
+                student: {
+                    enrollmentNumber: student.enrollment_number,
+                    email: student.cis_id,
+                    first_name: student.first_name,
+                    last_name: student.last_name,
+                    credits: student.credits,
+                    in_club_as_team: student.in_club_as_team,
+                    in_club_as_member: student.in_club_as_member
+                }
             }
         });
     } catch (error) {

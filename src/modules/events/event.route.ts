@@ -1,15 +1,17 @@
-import express from "express";
+import express, { Router } from "express";
 import * as eventController from "./event.controller";
+import * as eventSchema from "./event.schema";
+import { validateRequestBody } from "../../utils/zodValidation";
 
-const router = express.Router();
+const router: Router = express.Router();
 
 router.get("/", eventController.allEvents);
 
 router.get("/:eventId", eventController.singleEvent);
 
-router.post("/", eventController.createEvent);
+router.post("/", validateRequestBody(eventSchema.createEventSchema), eventController.createEvent);
 
-router.put("/:eventId", eventController.updateEvent);
+router.put("/:eventId",validateRequestBody(eventSchema.createEventSchema), eventController.updateEvent);
 
 router.delete("/:eventId", eventController.deleteEvent);
 

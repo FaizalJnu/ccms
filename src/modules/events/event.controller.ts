@@ -5,7 +5,22 @@ const prisma = new PrismaClient();
 
 export const allEvents = async (req: Request, res: Response) => {
     try {
-        const events = await prisma.event.findMany();
+        const events = await prisma.event.findMany({
+            include: {
+                clubs: {
+                    select: {
+                        club_name: true
+                    }
+                },
+                student: {
+                    select: {
+                        first_name: true,
+                        last_name: true,
+                    }
+                }
+            }
+        });
+
         res.status(200).json({
             status: true, body: {
                 message: "All events fetched successfully",
@@ -25,8 +40,29 @@ export const singleEvent = async (req: Request, res: Response) => {
         const event = await prisma.event.findUnique({
             where: {
                 event_id: parseInt(eventId)
+            },
+            include: {
+                clubs: {
+                    select: {
+                        club_name: true
+                    }
+                },
+                student: {
+                    select: {
+                        first_name: true,
+                        last_name: true,
+
+                    }
+                },
+                attendance: {
+                    select: {
+                        enrollment_number: true
+                    }
+                },
+                speakers:true       
             }
         });
+
         res.status(200).json({
             status: true, body: {
                 message: "Event data fetched successfully",

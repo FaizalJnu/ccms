@@ -1,6 +1,6 @@
 import prisma from "../../utils/prisma";
 import jwt from "jsonwebtoken";
-import "dotenv/config"
+import "dotenv/config";
 import bcrypt from "bcryptjs";
 
 async function lookupStudentByEnrollmentNumber(enrollment_number: string) {
